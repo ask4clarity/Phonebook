@@ -1,11 +1,15 @@
 import React from 'react'
+import Person from './Person'
 
-const Numbers = (props) => {
+const Numbers = ({remove, list}) => {
     return (
-      props.list.map(result =>
-        <p key={result.name}>{result.name} {result.number}</p>
-      )
+      <div>
+      {list.map(result =>
+      <Person result={result} remove={remove} key={result.id}/>
+      )}
+      </div>
     )
+    
   }  
 
 export default Numbers 
