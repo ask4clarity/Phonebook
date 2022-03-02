@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Numbers from './components/Numbers'
 import Search from './components/Search'
+import Notification from './components/Notification'
 import personService from './services/phonebook'
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSearch = (event) => setSearch(event.target.value)
   const handleNameChange = (event) => setNewName(event.target.value)
@@ -44,6 +45,17 @@ const App = () => {
           setPersons(persons.map(p => p.id !== person.id ? p : response))
           setNewName('') 
           setNewNumber('')
+          setMessage('Updated succesfully')
+          setTimeout(() => {
+          setMessage(null);
+          }, 5000)
+        })
+        .catch(error => {
+          console.log(error)
+          setMessage('User already deleted')
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000)
         })
       }
     }
@@ -57,6 +69,10 @@ const App = () => {
         setPersons(persons.concat(response))
         setNewName('') 
         setNewNumber('') 
+        setMessage('Added succesfully')
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000)
       })
     }
   }
@@ -69,9 +85,17 @@ const App = () => {
       .remove(id)
       .then(() => {
         setPersons(persons.filter(p => p.id !== id))
+        setMessage('Deleted succesfully')
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000)
       })
       .catch(error => {
         console.log(error)
+        setMessage(`User already deleted`)
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000)
       })
     }
   }
@@ -80,6 +104,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message}/>
       <h2>Search</h2>
       <Search search={search} handlesearch={handleSearch}/>
       <h2>Phonebook</h2>
