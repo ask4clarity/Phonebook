@@ -33,7 +33,6 @@ const App = () => {
       number: newNumber
     }
     const nameEqual = persons.some(person => person.name === newName)
-    const numberEqual = persons.some(person => person.number === newNumber)
 
     if (nameEqual) {
       const isReplace = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
